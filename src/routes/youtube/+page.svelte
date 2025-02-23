@@ -26,10 +26,6 @@
 		width: 250px;
 	}
 
-	/* a {
-		display: inline-block;
-	} */
-
 	img:hover {
 		border-color: #aaa;
 	}
