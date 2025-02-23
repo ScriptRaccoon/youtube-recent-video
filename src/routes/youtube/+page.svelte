@@ -1,6 +1,7 @@
 <script lang="ts">
+	import Loader from "../../lib/Loader.svelte"
+
 	let { data } = $props()
-	let video = $derived(data.video)
 </script>
 
 <svelte:head>
@@ -13,13 +14,23 @@
 
 <h2>Latest video</h2>
 
-<p>{video.title}</p>
+{#await data.videoPromise}
+	<Loader />
+{:then video}
+	{#if video}
+		<p>{video.title}</p>
 
-<a href={video.url} target="_blank">
-	<img src={video.thumbnail} alt={video.title} />
-</a>
+		<a href={video.url} target="_blank">
+			<img src={video.thumbnail} alt={video.title} />
+		</a>
 
-<div class="secondary">{video.views} views, {video.likes} likes</div>
+		<div class="secondary">{video.views} views, {video.likes} likes</div>
+	{:else}
+		<p>Video could not be loaded 💩</p>
+	{/if}
+{:catch error}
+	<p>Video could not be loaded: {error.message}</p>
+{/await}
 
 <style>
 	img {
