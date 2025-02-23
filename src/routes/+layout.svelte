@@ -17,7 +17,7 @@
 		display: flex;
 		justify-content: center;
 		gap: 1.25rem;
-		padding-block: 0.5rem;
+		padding-block: 1rem;
 		background-color: rgb(82, 22, 65);
 	}
 
