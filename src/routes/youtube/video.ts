@@ -49,7 +49,32 @@ export async function getLatestVideo() {
 		if (!id) throw new Error("No video id found")
 		if (!title) throw new Error("No title found")
 
-		return { id, title, url, thumbnail }
+		const stats = await getVideoStats(id)
+		if (!stats) throw new Error("No stats found")
+		const { views, likes } = stats
+
+		return { id, title, url, thumbnail, views, likes }
+	} catch (err) {
+		console.error(err)
+	}
+}
+
+export async function getVideoStats(videoID: string) {
+	try {
+		const response = await youtube.videos.list({
+			part: ["statistics"],
+			id: [videoID],
+		})
+
+		const results = response.data.items
+		if (!results) throw new Error("No results found")
+
+		const video = results[0]
+
+		const views = Number(video.statistics?.viewCount) ?? 0
+		const likes = Number(video.statistics?.likeCount) ?? 0
+
+		return { views, likes }
 	} catch (err) {
 		console.error(err)
 	}

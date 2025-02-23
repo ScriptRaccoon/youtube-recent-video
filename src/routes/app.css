@@ -38,3 +38,8 @@ p {
 img {
 	max-width: 100%;
 }
+
+.secondary {
+	color: #aaa;
+	font-size: 0.85rem;
+}

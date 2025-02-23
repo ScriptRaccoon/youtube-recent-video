@@ -19,6 +19,8 @@
 	<img src={video.thumbnail} alt={video.title} />
 </a>
 
+<div class="secondary">{video.views} views, {video.likes} likes</div>
+
 <style>
 	img {
 		border-radius: 0.5rem;
