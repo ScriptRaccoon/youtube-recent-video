@@ -5,6 +5,7 @@
 <nav>
 	<a href="/">Home</a>
 	<a href="/youtube">YouTube</a>
+	<a href="https://github.com/ScriptRaccoon/youtube-recent-video-tutorial" target="_blank">Code</a>
 </nav>
 
 <div class="wrapper">
