@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Loader from "$lib/Loader.svelte"
+	import SkeletonLoader from "$lib/SkeletonLoader.svelte"
 
 	let { data } = $props()
 </script>
@@ -15,7 +15,7 @@
 <h2>Latest video</h2>
 
 {#await data.videoPromise}
-	<Loader />
+	<SkeletonLoader />
 {:then video}
 	{#if video}
 		<p>{video.title}</p>
