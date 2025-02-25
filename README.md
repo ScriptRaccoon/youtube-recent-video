@@ -1,17 +1,26 @@
-# How to Display Recent YouTube Video on a SvelteKit Page
+# Displaying the Most Recent YouTube Video on a SvelteKit Page
 
-This project demonstrates how to display the most recent YouTube video from your channel on a SvelteKit page. The code will be used for a tutorial on my YouTube channel.
+This project demonstrates how to display the most recent YouTube video from your channel on a SvelteKit page. The code will be featured in a tutorial on my YouTube channel.
 
 The data is fetched using the YouTube Data API, which requires an API key (see instructions below).
 
-I use this method on my portfolio page to display the latest video: <https://scriptraccoon.dev/youtube>
+The data fetching is not performed within the application itself, as the data does not change frequently. Instead, a GitHub Action runs once per day to fetch the data, save it to a static JSON file, commit any changes, and trigger a new deployment on Netlify. The page is rendered using this static JSON file. This approach has two advantages:
 
-## How to Get an API Key
+-   Only one request to the API per day.
+-   Faster application performance since the page can be pre-rendered.
 
-1. Visit <https://console.cloud.google.com/>.
+This method is used on my portfolio page to display the latest video: <https://scriptraccoon.dev/youtube>
+
+## Obtaining an API Key
+
+1. Visit the [Google Cloud Console](https://console.cloud.google.com/).
 2. Create a new project and switch to it.
-3. Go to APIs & Services > Library and search for the YouTube Data API v3.
+3. Navigate to APIs & Services > Library and search for the YouTube Data API v3.
 4. Enable the API.
 5. Go to Credentials and click "Create Credentials".
 6. Select "API key".
-7. Copy the key to the `.env` file.
+7. Copy the generated key to the `.env` file.
+
+## Instructions for GitHub Actions
+
+For the deployment, you also need to add the API key to the GitHub Actions secrets and the channel ID to the GitHub Actions variables.
