@@ -1,7 +1,7 @@
 import type { PageServerLoad } from "./$types"
-import { getLatestVideo } from "./video"
+
+import video from "$lib/data/video.json"
 
 export const load: PageServerLoad = async () => {
-	const videoPromise = getLatestVideo()
-	return { videoPromise }
+	return { video }
 }
