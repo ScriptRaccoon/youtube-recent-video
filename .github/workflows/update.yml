@@ -1,0 +1,38 @@
+name: Update Video Data
+
+on:
+    schedule:
+        - cron: "0 0 * * *"
+    workflow_dispatch:
+
+jobs:
+    update:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Install Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: "22.14.0"
+
+            - name: Install pnpm
+              run: npm install -g pnpm
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Run update script
+              run: pnpm run update:video
+              env:
+                  YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+                  CHANNEL_ID: ${{ vars.CHANNEL_ID }}
+
+            - name: Commit and push changes
+              uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                  commit_message: Update of YouTube data
+                  file_pattern: "src/data/**/*.json"
