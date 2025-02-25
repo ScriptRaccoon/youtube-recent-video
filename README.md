@@ -4,8 +4,6 @@ This project demonstrates how to display the most recent YouTube video from your
 
 The data is fetched using the YouTube Data API, which requires an API key (see instructions below).
 
-To reduce the number of requests to the API, the video details are cached in a Redis instance. You can host a free Redis instance on <https://upstash.com/>.
-
 I use this method on my portfolio page to display the latest video: <https://scriptraccoon.dev/youtube>
 
 ## How to Get an API Key

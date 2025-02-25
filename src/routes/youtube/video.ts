@@ -7,7 +7,6 @@
 
 import { CHANNEL_ID, YOUTUBE_API_KEY } from "$env/static/private"
 import { google } from "googleapis"
-import { redis } from "./redis"
 
 /**
  * YouTube client to access the YouTube Data API.
@@ -66,6 +65,8 @@ export async function getLatestVideo(): Promise<VideoDetails | undefined> {
 		if (!stats) throw new Error("No stats found")
 		const { views, likes } = stats
 
+		console.log({ id, title, url, thumbnail, views, likes })
+
 		return { id, title, url, thumbnail, views, likes }
 	} catch (err) {
 		console.error(err)
@@ -97,30 +98,4 @@ async function getVideoStats(videoID: string): Promise<Stats | undefined> {
 	} catch (err) {
 		console.error(err)
 	}
-}
-
-/**
- * Tries to get the latest video from the Redis cache.
- * If the cache is empty, it will fetch the latest video from the channel
- * using the YouTube API and store it in the cache.
- * If an error occurs, it will be logged and nothing will be returned.
- */
-export async function getCachedLatestVideo(): Promise<VideoDetails | undefined> {
-	console.info("getCachedLatestVideo 🔦")
-
-	const cached = await redis.get("latest_video")
-	if (cached) {
-		console.info("cache hit 🚀")
-		console.info("cached value:", cached)
-		return JSON.parse(cached)
-	}
-
-	console.info("cache miss 😢")
-	const video = await getLatestVideo()
-	if (!video) return
-
-	const ONE_DAY_IN_SECONDS = 60 * 60 * 24
-	await redis.set("latest_video", JSON.stringify(video), "EX", ONE_DAY_IN_SECONDS)
-
-	return video
 }
