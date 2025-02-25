@@ -1,15 +1,21 @@
-/**
- * Documentation:
- * {@link https://www.npmjs.com/package/googleapis}
- * {@link https://developers.google.com/youtube/v3/docs/videos/list}
- * {@link https://developers.google.com/youtube/v3/docs/search/list}
- */
+import { config } from "dotenv"
+config()
 
-import { CHANNEL_ID, YOUTUBE_API_KEY } from "$env/static/private"
+import fs from "fs"
+import path from "path"
 import { google } from "googleapis"
+
+const CHANNEL_ID = process.env.CHANNEL_ID
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
+
+if (!CHANNEL_ID) throw new Error("No channel ID found")
+if (!YOUTUBE_API_KEY) throw new Error("No YouTube API key found")
 
 /**
  * YouTube client to access the YouTube Data API.
+ * {@link https://www.npmjs.com/package/googleapis}
+ * {@link https://developers.google.com/youtube/v3/docs/videos/list}
+ * {@link https://developers.google.com/youtube/v3/docs/search/list}
  */
 const youtube = google.youtube({
 	version: "v3",
@@ -35,7 +41,7 @@ type Stats = {
  * Includes the video ID, title, URL, thumbnail, views, and likes.
  * If an error occurs, it will be logged and nothing will be returned.
  */
-export async function getLatestVideo(): Promise<VideoDetails | undefined> {
+async function getLatestVideo(): Promise<VideoDetails | undefined> {
 	console.info("getLatestVideo 🎥")
 	try {
 		console.info("make a request to youtube API /search 🔦")
@@ -64,8 +70,6 @@ export async function getLatestVideo(): Promise<VideoDetails | undefined> {
 		const stats = await getVideoStats(id)
 		if (!stats) throw new Error("No stats found")
 		const { views, likes } = stats
-
-		console.log({ id, title, url, thumbnail, views, likes })
 
 		return { id, title, url, thumbnail, views, likes }
 	} catch (err) {
@@ -99,3 +103,23 @@ async function getVideoStats(videoID: string): Promise<Stats | undefined> {
 		console.error(err)
 	}
 }
+
+/**
+ * Updates the file 'video.json' with the latest data from the YouTube API.
+ */
+async function updateVideoData() {
+	const video = await getLatestVideo()
+	if (!video) {
+		console.error("No video data, aborting update")
+		return
+	}
+	console.info("Video data:")
+	console.info(video)
+
+	const videoData = JSON.stringify(video)
+	const filePath = path.resolve("src", "lib", "data", "video.json")
+	fs.writeFileSync(filePath, videoData, { encoding: "utf-8" })
+	console.info("Video data updated")
+}
+
+updateVideoData()
