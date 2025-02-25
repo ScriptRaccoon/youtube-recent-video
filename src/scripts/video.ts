@@ -117,7 +117,7 @@ async function updateVideoData() {
 	console.info(video)
 
 	const videoData = JSON.stringify(video)
-	const filePath = path.resolve("src", "lib", "data", "video.json")
+	const filePath = path.resolve("src", "data", "video.json")
 	fs.writeFileSync(filePath, videoData, { encoding: "utf-8" })
 	console.info("Video data updated")
 }
