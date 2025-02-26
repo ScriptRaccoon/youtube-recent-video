@@ -36,7 +36,7 @@ type Stats = {
 async function get_latest_video(): Promise<VideoDetails | undefined> {
 	try {
 		const response = await youtube.search.list({
-			part: ["id", "snippet"],
+			part: ["snippet"],
 			channelId: CHANNEL_ID!,
 			type: ["video"],
 			order: "date",
