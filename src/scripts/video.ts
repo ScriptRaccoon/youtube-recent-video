@@ -42,10 +42,7 @@ type Stats = {
  * If an error occurs, it will be logged and nothing will be returned.
  */
 async function getLatestVideo(): Promise<VideoDetails | undefined> {
-	console.info("getLatestVideo 🎥")
 	try {
-		console.info("make a request to youtube API /search 🔦")
-
 		const response = await youtube.search.list({
 			part: ["id", "snippet"],
 			channelId: CHANNEL_ID,
@@ -83,8 +80,6 @@ async function getLatestVideo(): Promise<VideoDetails | undefined> {
  */
 async function getVideoStats(videoID: string): Promise<Stats | undefined> {
 	try {
-		console.info("make a request to youtube API /videos 🔦")
-
 		const response = await youtube.videos.list({
 			part: ["statistics"],
 			id: [videoID],
@@ -108,16 +103,32 @@ async function getVideoStats(videoID: string): Promise<Stats | undefined> {
  * Updates the file 'video.json' with the latest data from the YouTube API.
  */
 async function updateVideoData() {
+	console.info("Updating video data ...")
+
+	const filePath = path.resolve("src", "data", "video.json")
+
+	const oldVideoData = fs.readFileSync(filePath, { encoding: "utf-8" })
+	console.info("Old video data:")
+	console.info(oldVideoData)
+
+	console.info("Fetching latest video data ...")
+
 	const video = await getLatestVideo()
 	if (!video) {
 		console.error("No video data, aborting update")
 		return
 	}
-	console.info("Video data:")
-	console.info(video)
 
 	const videoData = JSON.stringify(video)
-	const filePath = path.resolve("src", "data", "video.json")
+
+	if (videoData === oldVideoData) {
+		console.info("Video data is up to date")
+		return
+	}
+
+	console.info("Video data:")
+	console.info(videoData)
+
 	fs.writeFileSync(filePath, videoData, { encoding: "utf-8" })
 	console.info("Video data updated")
 }
