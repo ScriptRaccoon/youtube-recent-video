@@ -26,9 +26,10 @@
 		border-radius: 0.5rem;
 		border: 1px solid #444;
 		width: 250px;
+		transition: border-color 150ms;
 	}
 
 	img:hover {
-		border-color: #aaa;
+		border-color: #888;
 	}
 </style>
