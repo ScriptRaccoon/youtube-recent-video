@@ -41,7 +41,7 @@ type Stats = {
  * Includes the video ID, title, URL, thumbnail, views, and likes.
  * If an error occurs, it will be logged and nothing will be returned.
  */
-async function getLatestVideo(): Promise<VideoDetails | undefined> {
+async function get_latest_video(): Promise<VideoDetails | undefined> {
 	try {
 		const response = await youtube.search.list({
 			part: ["id", "snippet"],
@@ -64,7 +64,7 @@ async function getLatestVideo(): Promise<VideoDetails | undefined> {
 		if (!id) throw new Error("No video id found")
 		if (!title) throw new Error("No title found")
 
-		const stats = await getVideoStats(id)
+		const stats = await get_video_stats(id)
 		if (!stats) throw new Error("No stats found")
 		const { views, likes } = stats
 
@@ -78,7 +78,7 @@ async function getLatestVideo(): Promise<VideoDetails | undefined> {
  * Get the view count and like count for a video.
  * If an error occurs, it will be logged and nothing will be returned.
  */
-async function getVideoStats(videoID: string): Promise<Stats | undefined> {
+async function get_video_stats(videoID: string): Promise<Stats | undefined> {
 	try {
 		const response = await youtube.videos.list({
 			part: ["statistics"],
@@ -102,7 +102,7 @@ async function getVideoStats(videoID: string): Promise<Stats | undefined> {
 /**
  * Updates the file 'video.json' with the latest data from the YouTube API.
  */
-async function updateVideoData() {
+async function update_video_data() {
 	console.info("Updating video data ...")
 
 	const filePath = path.resolve("src", "data", "video.json")
@@ -113,7 +113,7 @@ async function updateVideoData() {
 
 	console.info("Fetching latest video data ...")
 
-	const video = await getLatestVideo()
+	const video = await get_latest_video()
 	if (!video) {
 		console.error("No video data, aborting update")
 		return
@@ -133,4 +133,4 @@ async function updateVideoData() {
 	console.info("Video data updated")
 }
 
-updateVideoData()
+update_video_data()
