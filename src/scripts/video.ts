@@ -1,25 +1,16 @@
-import { config } from "dotenv"
-config()
-
 import fs from "fs"
 import path from "path"
 import { google } from "googleapis"
 
-const CHANNEL_ID = process.env.CHANNEL_ID
-const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
-
-if (!CHANNEL_ID) throw new Error("No channel ID found")
-if (!YOUTUBE_API_KEY) throw new Error("No YouTube API key found")
+import { CHANNEL_ID, YOUTUBE_API_KEY } from "./env"
 
 /**
  * YouTube client to access the YouTube Data API.
  * {@link https://www.npmjs.com/package/googleapis}
- * {@link https://developers.google.com/youtube/v3/docs/videos/list}
- * {@link https://developers.google.com/youtube/v3/docs/search/list}
  */
 const youtube = google.youtube({
 	version: "v3",
-	auth: YOUTUBE_API_KEY,
+	auth: YOUTUBE_API_KEY!,
 })
 
 type VideoDetails = {
@@ -40,12 +31,13 @@ type Stats = {
  * Get the latest video from the channel using the YouTube API.
  * Includes the video ID, title, URL, thumbnail, views, and likes.
  * If an error occurs, it will be logged and nothing will be returned.
+ * {@link https://developers.google.com/youtube/v3/docs/search/list}
  */
 async function get_latest_video(): Promise<VideoDetails | undefined> {
 	try {
 		const response = await youtube.search.list({
 			part: ["id", "snippet"],
-			channelId: CHANNEL_ID,
+			channelId: CHANNEL_ID!,
 			type: ["video"],
 			order: "date",
 			maxResults: 1,
@@ -77,6 +69,7 @@ async function get_latest_video(): Promise<VideoDetails | undefined> {
 /**
  * Get the view count and like count for a video.
  * If an error occurs, it will be logged and nothing will be returned.
+ * {@link https://developers.google.com/youtube/v3/docs/videos/list}
  */
 async function get_video_stats(videoID: string): Promise<Stats | undefined> {
 	try {
