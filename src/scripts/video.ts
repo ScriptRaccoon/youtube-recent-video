@@ -79,7 +79,7 @@ async function get_video_stats(videoID: string): Promise<Stats | undefined> {
 		})
 
 		const results = response.data.items
-		if (!results) throw new Error("No results found")
+		if (!results?.length) throw new Error("No results found")
 
 		const video = results[0]
 
