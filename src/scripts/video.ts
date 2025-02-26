@@ -18,6 +18,7 @@ type VideoDetails = {
 	title: string
 	url: string
 	thumbnail: string
+	publishedAt: string
 	views: number
 	likes: number
 }
@@ -29,7 +30,6 @@ type Stats = {
 
 /**
  * Get the latest video from the channel using the YouTube API.
- * Includes the video ID, title, URL, thumbnail, views, and likes.
  * If an error occurs, it will be logged and nothing will be returned.
  * {@link https://developers.google.com/youtube/v3/docs/search/list}
  */
@@ -52,6 +52,7 @@ async function get_latest_video(): Promise<VideoDetails | undefined> {
 		const title = video.snippet?.title ?? ""
 		const url = `https://youtu.be/${id}`
 		const thumbnail = video.snippet?.thumbnails?.medium?.url ?? ""
+		const publishedAt = video.snippet?.publishedAt ?? ""
 
 		if (!id) throw new Error("No video id found")
 		if (!title) throw new Error("No title found")
@@ -60,7 +61,7 @@ async function get_latest_video(): Promise<VideoDetails | undefined> {
 		if (!stats) throw new Error("No stats found")
 		const { views, likes } = stats
 
-		return { id, title, url, thumbnail, views, likes }
+		return { id, title, url, thumbnail, publishedAt, views, likes }
 	} catch (err) {
 		console.error(err)
 	}

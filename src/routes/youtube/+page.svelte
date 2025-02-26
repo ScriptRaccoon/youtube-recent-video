@@ -1,6 +1,8 @@
 <script lang="ts">
 	let { data } = $props()
 	const { video } = data
+
+	const publishDateString = new Date(video.publishedAt).toLocaleDateString()
 </script>
 
 <svelte:head>
@@ -13,13 +15,19 @@
 
 <h2>Latest video</h2>
 
+<p class="secondary">
+	Published {publishDateString}
+</p>
+
 <p>{video.title}</p>
 
 <a href={video.url} target="_blank">
 	<img src={video.thumbnail} alt={video.title} />
 </a>
 
-<div class="secondary">{video.views} views, {video.likes} likes</div>
+<div class="secondary">
+	{video.views} views, {video.likes} likes
+</div>
 
 <style>
 	img {
