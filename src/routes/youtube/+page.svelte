@@ -1,6 +1,6 @@
 <script lang="ts">
 	let { data } = $props()
-	let video = $derived(data.video)
+	const { video } = data
 </script>
 
 <svelte:head>
