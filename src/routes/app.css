@@ -7,9 +7,10 @@
 body {
 	font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana,
 		sans-serif;
-	line-height: 1.4;
-	color: white;
-	background-color: #111;
+	line-height: 1.5;
+	color: #fff;
+	background-color: #101012;
+	font-size: 1.125rem;
 }
 
 a {
@@ -17,18 +18,10 @@ a {
 	text-underline-offset: 2px;
 }
 
-h1 {
-	text-align: center;
-	margin-block: 1rem;
-}
-
 h1,
 h2 {
 	font-weight: 500;
-}
-
-h2 {
-	padding-block: 1rem 0rem;
+	margin-block: 1.5rem 1rem;
 }
 
 p {
