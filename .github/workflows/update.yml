@@ -24,12 +24,14 @@ jobs:
 
             - name: Install dependencies
               run: pnpm install
+              working-directory: scripts
 
-            - name: Run update script
+            - name: Run update video script
               run: pnpm run update:video
               env:
                   YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
                   CHANNEL_ID: ${{ vars.CHANNEL_ID }}
+              working-directory: scripts
 
             - name: Commit and push changes
               uses: stefanzweifel/git-auto-commit-action@v5

@@ -99,7 +99,7 @@ async function get_video_stats(videoID: string): Promise<Stats | undefined> {
 async function update_video_data() {
 	console.info("Updating video data ...")
 
-	const filePath = path.resolve("src", "data", "video.json")
+	const filePath = path.resolve("..", "src", "data", "video.json")
 
 	const oldVideoData = fs.readFileSync(filePath, { encoding: "utf-8" })
 	console.info("Old video data:")
