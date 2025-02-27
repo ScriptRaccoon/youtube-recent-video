@@ -1,7 +1,7 @@
 <nav>
 	<a href="/">Home</a>
 	<a href="/youtube">YouTube</a>
-	<a href="https://github.com/ScriptRaccoon/youtube-recent-video-tutorial" target="_blank">Code</a>
+	<a href="https://github.com/ScriptRaccoon/youtube-recent-video" target="_blank">Code</a>
 </nav>
 
 <style>
