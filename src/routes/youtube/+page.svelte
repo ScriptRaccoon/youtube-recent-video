@@ -1,6 +1,5 @@
 <script lang="ts">
-	let { data } = $props()
-	const { video } = data
+	import video from "../../data/video.json"
 
 	const publishDateString = new Date(video.publishedAt).toLocaleDateString()
 </script>
