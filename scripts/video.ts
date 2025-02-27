@@ -44,7 +44,7 @@ async function get_latest_video(): Promise<VideoDetails | undefined> {
 		})
 
 		const results = response.data.items
-		if (!results) throw new Error("No results found")
+		if (!results?.length) throw new Error("No results found")
 
 		const video = results[0]
 
