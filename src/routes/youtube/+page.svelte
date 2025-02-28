@@ -14,11 +14,11 @@
 
 <h2>Latest video</h2>
 
+<p>{video.title}</p>
+
 <p class="secondary">
 	Published {publishDateString}
 </p>
-
-<p>{video.title}</p>
 
 <a href={video.url} target="_blank">
 	<img src={video.thumbnail} alt={video.title} />
