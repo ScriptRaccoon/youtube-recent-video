@@ -13,27 +13,12 @@ const youtube = google.youtube({
 	auth: YOUTUBE_API_KEY!,
 })
 
-type VideoDetails = {
-	id: string
-	title: string
-	url: string
-	thumbnail: string
-	publishedAt: string
-	views: number
-	likes: number
-}
-
-type Stats = {
-	views: number
-	likes: number
-}
-
 /**
  * Get the latest video from the channel using the YouTube API.
  * If an error occurs, it will be logged and nothing will be returned.
  * {@link https://developers.google.com/youtube/v3/docs/search/list}
  */
-async function get_latest_video(): Promise<VideoDetails | undefined> {
+async function get_latest_video() {
 	try {
 		const response = await youtube.search.list({
 			part: ["snippet"],
@@ -72,7 +57,7 @@ async function get_latest_video(): Promise<VideoDetails | undefined> {
  * If an error occurs, it will be logged and nothing will be returned.
  * {@link https://developers.google.com/youtube/v3/docs/videos/list}
  */
-async function get_video_stats(videoID: string): Promise<Stats | undefined> {
+async function get_video_stats(videoID: string) {
 	try {
 		const response = await youtube.videos.list({
 			part: ["statistics"],
