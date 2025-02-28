@@ -1,7 +1,7 @@
 <script lang="ts">
 	import video from "../../data/video.json"
 
-	const publishDateString = new Date(video.publishedAt).toLocaleDateString()
+	const publishDateString = new Date(video.published).toLocaleDateString()
 </script>
 
 <svelte:head>

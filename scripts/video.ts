@@ -37,7 +37,7 @@ async function get_latest_video() {
 		const title = video.snippet?.title ?? ""
 		const url = `https://youtu.be/${id}`
 		const thumbnail = video.snippet?.thumbnails?.medium?.url ?? ""
-		const publishedAt = video.snippet?.publishedAt ?? ""
+		const published = video.snippet?.publishedAt ?? ""
 
 		if (!id) throw new Error("No video id found")
 		if (!title) throw new Error("No title found")
@@ -46,7 +46,7 @@ async function get_latest_video() {
 		if (!stats) throw new Error("No stats found")
 		const { views, likes } = stats
 
-		return { id, title, url, thumbnail, publishedAt, views, likes }
+		return { id, title, url, thumbnail, published, views, likes }
 	} catch (err) {
 		console.error(err)
 	}
@@ -57,11 +57,11 @@ async function get_latest_video() {
  * If an error occurs, it will be logged and nothing will be returned.
  * {@link https://developers.google.com/youtube/v3/docs/videos/list}
  */
-async function get_video_stats(videoID: string) {
+async function get_video_stats(id: string) {
 	try {
 		const response = await youtube.videos.list({
 			part: ["statistics"],
-			id: [videoID],
+			id: [id],
 		})
 
 		const results = response.data.items
@@ -84,11 +84,11 @@ async function get_video_stats(videoID: string) {
 async function update_video_data() {
 	console.info("Updating video data ...")
 
-	const filePath = path.resolve("..", "src", "data", "video.json")
+	const file_path = path.resolve("..", "src", "data", "video.json")
 
-	const oldVideoData = fs.readFileSync(filePath, { encoding: "utf-8" })
+	const old_video = fs.readFileSync(file_path, { encoding: "utf-8" })
 	console.info("Old video data:")
-	console.info(oldVideoData)
+	console.info(old_video)
 
 	console.info("Fetching latest video data ...")
 
@@ -98,17 +98,17 @@ async function update_video_data() {
 		return
 	}
 
-	const videoData = JSON.stringify(video)
+	const video_data = JSON.stringify(video)
 
-	if (videoData === oldVideoData) {
+	if (video_data === old_video) {
 		console.info("Video data is up to date")
 		return
 	}
 
 	console.info("Video data:")
-	console.info(videoData)
+	console.info(video_data)
 
-	fs.writeFileSync(filePath, videoData, { encoding: "utf-8" })
+	fs.writeFileSync(file_path, video_data, { encoding: "utf-8" })
 	console.info("Video data updated")
 }
 
