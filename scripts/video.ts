@@ -26,6 +26,7 @@ async function get_latest_video() {
 			type: ["video"],
 			order: "date",
 			maxResults: 1,
+			fields: "items(id/videoId,snippet(title,thumbnails/medium,publishedAt))",
 		})
 
 		const results = response.data.items
