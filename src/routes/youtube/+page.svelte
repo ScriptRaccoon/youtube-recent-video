@@ -1,5 +1,5 @@
 <script lang="ts">
-	import video from "../../data/video.json"
+	import video from '../../data/video.json'
 
 	const publishDateString = new Date(video.published).toLocaleDateString()
 </script>
@@ -12,7 +12,7 @@
 
 <p>I run a YouTube channel on software development.</p>
 
-<h2>Latest video</h2>
+<h2><s>Latest</s>* video</h2>
 
 <p>{video.title}</p>
 
@@ -27,6 +27,8 @@
 <div class="secondary">
 	{video.views} views, {video.likes} likes
 </div>
+
+<p>*The Cron schedule has been disabled for now.</p>
 
 <style>
 	img {
